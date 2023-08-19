@@ -1,21 +1,82 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Card from './Card';
 import { DATA } from '@/libs/constant';
+import { useParams } from '@/hooks/useParams';
 
 export default function Content() {
+    const { location, guest } = useParams();
+    const { totalStay, numberOfGuests } = useMemo(() => {
+        if (location) {
+            const splittedResult = location.split(', ');
+
+            const splittedGuest = guest
+                .split(' ')
+                .filter((el) => !isNaN(Number(el)));
+
+            const numberOfGuests = splittedGuest.reduce((prev, current) => {
+                return (prev += Number(current));
+            }, 0);
+
+            const result = DATA.filter((el) => {
+                if (numberOfGuests > 0) {
+                    return (
+                        el.maxGuests <= numberOfGuests &&
+                        splittedResult.includes(el.city) &&
+                        splittedResult.includes(el.country)
+                    );
+                } else {
+                    return (
+                        splittedResult.includes(el.city) &&
+                        splittedResult.includes(el.country)
+                    );
+                }
+            }).length;
+
+            return {
+                totalStay: result,
+                numberOfGuests,
+            };
+        }
+
+        return {
+            numberOfGuests: 0,
+            totalStay: 0,
+        };
+    }, [location, guest]);
+
     return (
         <>
             <div className='flex items-center justify-between'>
                 <h1 className='font-montserrat font-bold leading-normal text-neutral-900'>
-                    Stays in Finland
+                    {location === '' ? 'All location' : location}
                 </h1>
-                <p className='text-neutral-600  text-14 font-[500]'>
-                    12+ Stays
-                </p>
+                {totalStay > 1 && (
+                    <p className='text-neutral-600  text-14 font-[500]'>
+                        {totalStay} {totalStay > 1 ? `Stays` : `Stay`}
+                    </p>
+                )}
             </div>
 
-            <div className='flex flex-col gap-6'>
-                {DATA.map(({ photo, type, title, rating, superHost }, key) => (
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 '>
+                {DATA.filter((el) => {
+                    if (location) {
+                        const splittedResult = location.split(', ');
+
+                        if (numberOfGuests > 0) {
+                            return (
+                                el.maxGuests >= numberOfGuests &&
+                                splittedResult.includes(el.city) &&
+                                splittedResult.includes(el.country)
+                            );
+                        } else {
+                            return (
+                                splittedResult.includes(el.city) &&
+                                splittedResult.includes(el.country)
+                            );
+                        }
+                    }
+                    return el;
+                }).map(({ photo, type, title, rating, superHost }, key) => (
                     <Card
                         superHost={superHost}
                         src={photo}

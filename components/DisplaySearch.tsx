@@ -1,18 +1,28 @@
-import React from 'react';
+'use client';
+
+import { useModalSearch } from '@/hooks/useModalSearch';
+import { useParams } from '@/hooks/useParams';
+
 import { Search as SearchIcon } from 'tabler-icons-react';
 
 export default function DisplaySearch() {
+    const { location, guest } = useParams();
+    const { modal, openModal } = useModalSearch();
+
     return (
-        <div className='flex  text-neutral-700 text-14 items-center justify-center shadow-sm font-mulish  border-[#F2F2F2] border-[1.5px] w-[90%] mx-auto  rounded-[16px]'>
-            <button className='flex-shrink p-4  border-r-[1px] border-[#F2F2F2]'>
-                Helsinki, Finland
+        <div className='flex text-neutral-700 text-14 items-center  shadow-sm font-mulish  border-[#F2F2F2] border-[1.5px] w-full mx-auto  rounded-3xl'>
+            <button className='flex-grow py-2 px-4 border-r-[1px] border-[#F2F2F2]'>
+                {location === '' ? 'Search location' : location}
             </button>
 
-            <button className='flex-shrink p-4  border-r-[1px] border-[#F2F2F2]'>
-                Add Guests{' '}
+            <button className='flex-grow py-2 px-4   border-r-[1px] border-[#F2F2F2]'>
+                {guest === '' ? 'Search guest' : guest}
             </button>
-            <button className='text-center flex-none p-4'>
-                <SearchIcon className='text-primary' />
+            <button className='text-center flex-none py-2 px-4 m-auto '>
+                <SearchIcon
+                    className='text-primary'
+                    onClick={() => openModal(modal)}
+                />
             </button>
         </div>
     );

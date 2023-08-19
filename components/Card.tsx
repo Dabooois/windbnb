@@ -11,14 +11,17 @@ type TCard = {
 
 export default function Card({ src, superHost, type, rating, title }: TCard) {
     return (
-        <div className='flex  gap-2 flex-col'>
-            <Image
-                src={src}
-                alt={title}
-                width={400}
-                height={100}
-                className='rounded-3xl'
-            />
+        <div className='flex  gap-2 flex-col '>
+            <div className=' w-full h-[295px] relative '>
+                <Image
+                    src={src}
+                    alt={title}
+                    layout='fill'
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    className='rounded-3xl   object-cover w-auto h-auto'
+                />
+            </div>
+
             <div className='flex justify-between items-center'>
                 <div className='flex gap-2 items-center'>
                     {superHost && (
@@ -39,6 +42,7 @@ export default function Card({ src, superHost, type, rating, title }: TCard) {
                     <span className='text-12 text-neutral-900'>{rating}</span>
                 </div>
             </div>
+            <p className=' text-sm  font-bold'>{title}</p>
         </div>
     );
 }

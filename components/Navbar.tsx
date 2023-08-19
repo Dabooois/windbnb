@@ -5,9 +5,12 @@ import DisplaySearch from './DisplaySearch';
 
 export default function Navbar() {
     return (
-        <header className='w-full bg-white flex flex-col gap-10 p-2 '>
-            <Image src={Logo} alt='Website Logo' className='ml-1' />
-
+        <header className='max-w-[1440px] mx-auto bg-white flex flex-col sm:flex-row sm:justify-between  gap-10 py-4 px-6 '>
+            <Image
+                src={Logo}
+                alt='Website Logo'
+                className='ml-1 object-contain'
+            />
             <div>
                 <DisplaySearch />
             </div>
