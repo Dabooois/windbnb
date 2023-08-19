@@ -20,7 +20,7 @@ export default function Content() {
             const result = DATA.filter((el) => {
                 if (numberOfGuests > 0) {
                     return (
-                        el.maxGuests <= numberOfGuests &&
+                        el.maxGuests >= numberOfGuests &&
                         splittedResult.includes(el.city) &&
                         splittedResult.includes(el.country)
                     );
@@ -44,6 +44,28 @@ export default function Content() {
         };
     }, [location, guest]);
 
+
+    const filteredData = DATA.filter((el) => {
+        if (location) {
+            const splittedResult = location.split(', ');
+
+            if (numberOfGuests > 0) {
+                return (
+                    el.maxGuests >= numberOfGuests &&
+                    splittedResult.includes(el.city) &&
+                    splittedResult.includes(el.country)
+                );
+            } else {
+                return (
+                    splittedResult.includes(el.city) &&
+                    splittedResult.includes(el.country)
+                );
+            }
+        }
+        return el;
+    });
+
+    
     return (
         <>
             <div className='flex items-center justify-between'>
@@ -56,37 +78,26 @@ export default function Content() {
                     </p>
                 )}
             </div>
+            {filteredData.length === 0 && (
+                <p className='text-center'>No Result</p>
+            )}
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 '>
-                {DATA.filter((el) => {
-                    if (location) {
-                        const splittedResult = location.split(', ');
-
-                        if (numberOfGuests > 0) {
-                            return (
-                                el.maxGuests >= numberOfGuests &&
-                                splittedResult.includes(el.city) &&
-                                splittedResult.includes(el.country)
-                            );
-                        } else {
-                            return (
-                                splittedResult.includes(el.city) &&
-                                splittedResult.includes(el.country)
-                            );
-                        }
-                    }
-                    return el;
-                }).map(({ photo, type, title, rating, superHost }, key) => (
-                    <Card
-                        superHost={superHost}
-                        src={photo}
-                        type={type}
-                        title={title}
-                        rating={rating}
-                        key={key}
-                    />
-                ))}
-            </div>
+            {filteredData.length > 0 && (
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 '>
+                    {filteredData.map(
+                        ({ photo, type, title, rating, superHost }, key) => (
+                            <Card
+                                superHost={superHost}
+                                src={photo}
+                                type={type}
+                                title={title}
+                                rating={rating}
+                                key={key}
+                            />
+                        )
+                    )}
+                </div>
+            )}
         </>
     );
 }

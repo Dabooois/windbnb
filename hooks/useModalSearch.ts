@@ -1,7 +1,5 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { useCallback } from 'react';
-
 export const useModalSearch = () => {
     const searchParams = useSearchParams();
     const useModal = searchParams.get('modalState') || 'close';
