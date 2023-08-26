@@ -25,15 +25,17 @@ export default function Navbar() {
                 !atTopPage
                     ? 'shadow-2xl transition delay-100 duration-300 ease-in-out'
                     : ''
-            } max-w-[1440px] mx-auto bg-white flex flex-col sm:flex-row sm:justify-between  gap-10 py-4 px-6`}
+            } bg-neutral-100`}
         >
-            <Image
-                src={Logo}
-                alt='Website Logo'
-                className='ml-1 object-contain'
-            />
-            <div>
-                <DisplaySearch />
+            <div className=' max-w-[1440px] mx-auto flex flex-col sm:flex-row sm:justify-between gap-10 py-4'>
+                <Image
+                    src={Logo}
+                    alt='Website Logo'
+                    className='ml-1 object-contain'
+                />
+                <div>
+                    <DisplaySearch />
+                </div>
             </div>
         </header>
     );
