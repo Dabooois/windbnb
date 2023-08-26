@@ -28,7 +28,7 @@ export default function GuestSearch() {
         setAdult(addAdult);
 
         existingParams.set('adult', String(addAdult));
-        router.push(`?${existingParams.toString()}`);
+        // router.push(`?${existingParams.toString()}`);
     };
 
     const handleMinusAdult = () => {
@@ -36,7 +36,7 @@ export default function GuestSearch() {
             const minusAdult = adult - 1;
             setAdult(minusAdult);
             existingParams.set('adult', String(minusAdult));
-            router.push(`?${existingParams.toString()}`);
+            // router.push(`?${existingParams.toString()}`);
         }
     };
 
@@ -44,7 +44,7 @@ export default function GuestSearch() {
         const addChildren = children + 1;
         setChildren(addChildren);
         existingParams.set('children', String(addChildren));
-        router.push(`?${existingParams.toString()}`);
+        // router.push(`?${existingParams.toString()}`);
     };
 
     const handleMinusChildren = () => {
@@ -52,7 +52,7 @@ export default function GuestSearch() {
             const minusChildren = children - 1;
             setChildren(minusChildren);
             existingParams.set('children', String(minusChildren));
-            router.push(`?${existingParams.toString()}`);
+            // router.push(`?${existingParams.toString()}`);
         }
     };
     return (

@@ -34,7 +34,7 @@ export default function CountrySearch({ handleViewLocation }: TCountrySearch) {
                     <p
                         key={key}
                         onClick={() => handlelocationState(el.city, el.country)}
-                        className={`flex gap-2 font-mulish text-14  p-1 hover:bg-neutral-200 cursor-pointer ${
+                        className={`flex gap-2 font-mulish text-14  p-1 hover:bg-neutral-200 cursor-pointer  ${
                             isActive ? 'bg-neutral-200 rounded-md' : ''
                         }`}
                     >

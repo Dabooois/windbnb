@@ -44,7 +44,6 @@ export default function Content() {
         };
     }, [location, guest]);
 
-
     const filteredData = DATA.filter((el) => {
         if (location) {
             const splittedResult = location.split(', ');
@@ -65,7 +64,6 @@ export default function Content() {
         return el;
     });
 
-    
     return (
         <>
             <div className='flex items-center justify-between'>
