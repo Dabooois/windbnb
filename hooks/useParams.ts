@@ -1,32 +1,19 @@
+import { GuestList } from '@/components/AcviteSearch';
+import { decodeValue } from '@/libs/functions';
 import { useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
 
-export const useParams = () => {
+type Params = {
+    location: string;
+    guest: GuestList;
+};
+export const useParams = (): Params => {
     const searchParams = useSearchParams();
-    const paramCountry = searchParams.get('location');
-    const paramChildren = searchParams.get('children') || '';
-    const paramAdult = searchParams.get('adult') || '';
+    const modalParm = searchParams?.get('modalParam');
 
-    const { location, guest } = useMemo(() => {
-        const value = {
-            [Number(paramAdult) > 1 ? 'adults' : 'adult']: paramAdult,
-            [Number(paramChildren) > 1 ? 'childrens' : 'children']:
-                paramChildren,
-        };
-
-        const data = Object.values(value)
-            .filter((el) => el !== '')
-            .map((el, key) => `${el} ${Object.keys(value)[key]}`)
-            .join(' and ');
-
-        return {
-            location: paramCountry || '',
-            guest: data,
-        };
-    }, [paramCountry, paramChildren, paramAdult]);
+    const value = modalParm && JSON.parse(decodeValue(modalParm));
 
     return {
-        location,
-        guest,
+        location: value?.location || '',
+        guest: value?.guest || { children: 0, adult: 0 },
     };
 };

@@ -22,14 +22,14 @@ export default function GuestSearchButton({
             <p className='text-sm  text-neutral-400'>{description}</p>
             <div className='flex gap-2 items-center mt-2'>
                 <p
-                    // onClick={minus}
+                    onClick={minus}
                     className='border border-[#828282] p-1 cursor-pointer'
                 >
                     <Minus size={10} strokeWidth={1} color={'black'} />
                 </p>
                 <span className='text-sm text-neutral-900'>{value}</span>
                 <p
-                    // onClick={plus}
+                    onClick={plus}
                     className='border border-[#828282] p-1 cursor-pointer'
                 >
                     <Plus size={10} strokeWidth={1} color={'black'} />
