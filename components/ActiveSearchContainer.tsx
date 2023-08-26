@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import { Search, X } from 'tabler-icons-react';
 import AcviteSearch from './AcviteSearch';
@@ -8,6 +9,7 @@ export default function ActiveSearchContainer() {
     const { modal, openModal } = useModalSearch();
     const [location, setLocation] = useState('');
     const [guest, setGuest] = useState('');
+
     return (
         <div className='w-full absolute h-screen bg-white z-30 left-0 right-0 top-0 px-4 pt-2 flex  flex-col gap-4 justify-between'>
             <form className='flex gap-4 flex-col'>
