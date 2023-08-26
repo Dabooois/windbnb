@@ -14,13 +14,16 @@ type TCard = {
 export default function Card({ src, superHost, type, rating, title }: TCard) {
     return (
         <div className='flex  gap-2 flex-col '>
-            <div className=' w-full h-[295px] relative '>
+            <div className='relative '>
                 <Image
                     src={src}
                     alt={title}
-                    layout='fill'
-                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                    className='rounded-3xl   object-cover w-auto h-auto'
+                    width={362}
+                    height={295}
+                    // sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    // height={295}
+                    // width={343}
+                    className='rounded-3xl object-cover w-full h-[295px]'
                 />
             </div>
 

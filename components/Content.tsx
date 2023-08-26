@@ -1,68 +1,49 @@
-import React, { useMemo } from 'react';
+import { useParams } from '@/hooks/useParams';
 import Card from './Card';
 import { DATA } from '@/libs/constant';
-import { useParams } from '@/hooks/useParams';
+import { useMemo } from 'react';
 
 export default function Content() {
     const { location, guest } = useParams();
-    const { totalStay, numberOfGuests } = useMemo(() => {
-        if (location) {
-            const splittedResult = location.split(', ');
 
-            const splittedGuest = guest
-                .split(' ')
-                .filter((el) => !isNaN(Number(el)));
+    const { totalStay, result } = useMemo(() => {
+        const splittedResult = location.split(', ').filter((el) => el !== '');
+        const numberOfGuests = Object.values(guest).reduce((prev, current) => {
+            return (prev += Number(current));
+        }, 0);
 
-            const numberOfGuests = splittedGuest.reduce((prev, current) => {
-                return (prev += Number(current));
-            }, 0);
-
+        if (splittedResult.length > 0 || numberOfGuests > 0) {
             const result = DATA.filter((el) => {
                 if (numberOfGuests > 0) {
+                    return el.maxGuests >= numberOfGuests;
+                }
+
+                if (numberOfGuests > 0 && splittedResult.length > 0) {
                     return (
                         el.maxGuests >= numberOfGuests &&
                         splittedResult.includes(el.city) &&
                         splittedResult.includes(el.country)
                     );
-                } else {
+                }
+                if (splittedResult.length > 0) {
                     return (
                         splittedResult.includes(el.city) &&
                         splittedResult.includes(el.country)
                     );
                 }
-            }).length;
+            });
 
             return {
-                totalStay: result,
-                numberOfGuests,
+                totalStay: result.length,
+                result: result,
             };
         }
 
         return {
-            numberOfGuests: 0,
-            totalStay: 0,
+            totalStay: DATA.length,
+            result: DATA,
         };
     }, [location, guest]);
-
-    const filteredData = DATA.filter((el) => {
-        if (location) {
-            const splittedResult = location.split(', ');
-
-            if (numberOfGuests > 0) {
-                return (
-                    el.maxGuests >= numberOfGuests &&
-                    splittedResult.includes(el.city) &&
-                    splittedResult.includes(el.country)
-                );
-            } else {
-                return (
-                    splittedResult.includes(el.city) &&
-                    splittedResult.includes(el.country)
-                );
-            }
-        }
-        return el;
-    });
 
     return (
         <>
@@ -72,17 +53,15 @@ export default function Content() {
                 </h1>
                 {totalStay > 1 && (
                     <p className='text-neutral-600  text-14 font-[500]'>
-                        {totalStay} {totalStay > 1 ? `Stays` : `Stay`}
+                        {totalStay} {totalStay > 1 ? `+Stays` : `Stay`}
                     </p>
                 )}
             </div>
-            {filteredData.length === 0 && (
-                <p className='text-center'>No Result</p>
-            )}
+            {result.length === 0 && <p className='text-center'>No Result</p>}
 
-            {filteredData.length > 0 && (
+            {result.length > 0 && (
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-10 '>
-                    {filteredData.map(
+                    {result.map(
                         ({ photo, type, title, rating, superHost }, key) => (
                             <Card
                                 superHost={superHost}

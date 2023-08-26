@@ -2,64 +2,41 @@
 
 import React from 'react';
 
-import { useState } from 'react';
-
-import { useSearchParams, useRouter } from 'next/navigation';
 import GuestSearchButton from './GuestSearchButton';
+import { ActiveSearch } from './AcviteSearch';
 
-export default function GuestSearch() {
-    const searchParams = useSearchParams();
-    const existingParams = new URLSearchParams(
-        Array.from(searchParams.entries())
-    );
-
-    const router = useRouter();
-
-    const [adult, setAdult] = useState<number>(
-        Number(searchParams.get('adult')) || 0
-    );
-
-    const [children, setChildren] = useState<number>(
-        Number(searchParams.get('children')) || 0
-    );
+type GuestParam = Omit<ActiveSearch, 'location'>;
+export default function GuestSearch({ guest }: GuestParam) {
+    const { guest: guestParam, setGuest } = guest;
 
     const handlePlusAdult = async () => {
-        const addAdult = adult + 1;
-        setAdult(addAdult);
-
-        existingParams.set('adult', String(addAdult));
-        // router.push(`?${existingParams.toString()}`);
+        const adult = (guestParam.adult += 1);
+        setGuest({ ...guestParam, adult });
     };
 
     const handleMinusAdult = () => {
-        if (adult > 0) {
-            const minusAdult = adult - 1;
-            setAdult(minusAdult);
-            existingParams.set('adult', String(minusAdult));
-            // router.push(`?${existingParams.toString()}`);
+        if (guestParam.adult > 0) {
+            const adult = (guestParam.adult -= 1);
+            setGuest({ ...guestParam, adult });
         }
     };
 
     const handlePlusChildren = async () => {
-        const addChildren = children + 1;
-        setChildren(addChildren);
-        existingParams.set('children', String(addChildren));
-        // router.push(`?${existingParams.toString()}`);
+        const children = (guestParam.children += 1);
+        setGuest({ ...guestParam, children });
     };
 
     const handleMinusChildren = () => {
-        if (children > 0) {
-            const minusChildren = children - 1;
-            setChildren(minusChildren);
-            existingParams.set('children', String(minusChildren));
-            // router.push(`?${existingParams.toString()}`);
+        if (guestParam.children > 0) {
+            const children = (guestParam.children -= 1);
+            setGuest({ ...guestParam, children });
         }
     };
     return (
         <div className='flex flex-col gap-8'>
             <div className='flex flex-col font-[Mulish] '>
                 <GuestSearchButton
-                    value={adult}
+                    value={guestParam.adult}
                     title='Adults'
                     description='Age 13 or above'
                     plus={handlePlusAdult}
@@ -69,7 +46,7 @@ export default function GuestSearch() {
 
             <div className='flex flex-col font-[Mulish] '>
                 <GuestSearchButton
-                    value={children}
+                    value={guestParam.children}
                     title='Children'
                     description='Age 2 - 12'
                     plus={handlePlusChildren}

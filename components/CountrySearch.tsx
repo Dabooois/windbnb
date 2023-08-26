@@ -1,28 +1,34 @@
 import { LOCATION } from '@/libs/constant';
-import { useState } from 'react';
-import { MapPin } from 'tabler-icons-react';
-import { useRouter, useSearchParams } from 'next/navigation';
 
-type TCountrySearch = {
+import { MapPin } from 'tabler-icons-react';
+// import { useRouter, useSearchParams } from 'next/navigation';
+import { ActiveSearch } from './AcviteSearch';
+
+type Pretify<T> = {
+    [K in keyof T]: T[K];
+};
+
+type TCountrySearch = Omit<ActiveSearch, 'guest'> & {
     handleViewLocation: () => void;
 };
 
-export default function CountrySearch({ handleViewLocation }: TCountrySearch) {
-    const searchParams = useSearchParams();
-    const existingParams = new URLSearchParams(
-        Array.from(searchParams.entries())
-    );
-    const router = useRouter();
+export default function CountrySearch({
+    handleViewLocation,
+    location: locParam,
+}: Pretify<TCountrySearch>) {
+    // const searchParams = useSearchParams();
+    // const existingParams = new URLSearchParams(
+    //     Array.from(searchParams.entries())
+    // );
+    // const router = useRouter();
 
-    const [location, setLocation] = useState<string>(
-        searchParams.get('location') || ''
-    );
+    const { setLocation, location } = locParam;
 
     const handlelocationState = (city: string, country: string) => {
         setLocation(`${city}, ${country}`);
         handleViewLocation();
-        existingParams.set('location', String(`${city}, ${country}`));
-        router.push(`?${existingParams.toString()}`);
+        // existingParams.set('location', String(`${city}, ${country}`));
+        // router.push(`?${existingParams.toString()}`);
     };
 
     return (
